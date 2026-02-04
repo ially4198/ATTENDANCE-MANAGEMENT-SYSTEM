@@ -10,11 +10,12 @@ const ProtectedRoute = ({ role }) => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />
+    return <Navigate to="/login/student" replace />
   }
 
   if (role && user?.role !== role) {
-    return <Navigate to="/login" replace />
+    const target = user?.role ? `/login/${user.role}` : '/login/student'
+    return <Navigate to={target} replace />
   }
 
   return <Outlet />

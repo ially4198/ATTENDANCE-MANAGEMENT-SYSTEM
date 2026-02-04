@@ -12,8 +12,8 @@ const AttendanceHistory = () => {
       courseCode: 'CS101',
       courseName: 'Introduction to Programming',
       status: 'present',
-      timeIn: '09:55',
-      timeOut: '11:30',
+      // timeIn: '09:55',
+      // timeOut: '11:30',
     },
     {
       id: 2,
@@ -21,8 +21,8 @@ const AttendanceHistory = () => {
       courseCode: 'MATH101',
       courseName: 'Calculus I',
       status: 'present',
-      timeIn: '09:02',
-      timeOut: '10:00',
+      // timeIn: '09:02',
+      // timeOut: '10:00',
     },
     {
       id: 3,
@@ -30,8 +30,8 @@ const AttendanceHistory = () => {
       courseCode: 'CS201',
       courseName: 'Data Structures',
       status: 'present',
-      timeIn: '14:05',
-      timeOut: '15:30',
+      // timeIn: '14:05',
+      // timeOut: '15:30',
     },
     {
       id: 4,
@@ -39,8 +39,8 @@ const AttendanceHistory = () => {
       courseCode: 'MATH101',
       courseName: 'Calculus I',
       status: 'absent',
-      timeIn: null,
-      timeOut: null,
+      // timeIn: null,
+      // timeOut: null,
     },
     {
       id: 5,
@@ -48,8 +48,8 @@ const AttendanceHistory = () => {
       courseCode: 'CS101',
       courseName: 'Introduction to Programming',
       status: 'present',
-      timeIn: '09:58',
-      timeOut: '11:30',
+      // timeIn: '09:58',
+      // timeOut: '11:30',
     },
     {
       id: 6,
@@ -57,8 +57,8 @@ const AttendanceHistory = () => {
       courseCode: 'CS201',
       courseName: 'Data Structures',
       status: 'present',
-      timeIn: '14:00',
-      timeOut: '15:30',
+      // timeIn: '14:00',
+      // timeOut: '15:30',
     },
     {
       id: 7,
@@ -66,8 +66,8 @@ const AttendanceHistory = () => {
       courseCode: 'MATH101',
       courseName: 'Calculus I',
       status: 'present',
-      timeIn: '09:10',
-      timeOut: '10:00',
+      // timeIn: '09:10',
+      // timeOut: '10:00',
     },
     {
       id: 8,
@@ -75,8 +75,8 @@ const AttendanceHistory = () => {
       courseCode: 'CS101',
       courseName: 'Introduction to Programming',
       status: 'absent',
-      timeIn: null,
-      timeOut: null,
+      // timeIn: null,
+      // timeOut: null,
     },
     {
       id: 9,
@@ -84,8 +84,8 @@ const AttendanceHistory = () => {
       courseCode: 'CS201',
       courseName: 'Data Structures',
       status: 'present',
-      timeIn: '14:02',
-      timeOut: '15:30',
+      // timeIn: '14:02',
+      // timeOut: '15:30',
     },
     {
       id: 10,
@@ -93,8 +93,8 @@ const AttendanceHistory = () => {
       courseCode: 'MATH101',
       courseName: 'Calculus I',
       status: 'present',
-      timeIn: '09:05',
-      timeOut: '10:00',
+      // timeIn: '09:05',
+      // timeOut: '10:00',
     },
     {
       id: 11,
@@ -102,8 +102,8 @@ const AttendanceHistory = () => {
       courseCode: 'CS101',
       courseName: 'Introduction to Programming',
       status: 'present',
-      timeIn: '09:50',
-      timeOut: '11:30',
+      // timeIn: '09:50',
+      // timeOut: '11:30',
     },
     {
       id: 12,
@@ -111,8 +111,8 @@ const AttendanceHistory = () => {
       courseCode: 'CS201',
       courseName: 'Data Structures',
       status: 'present',
-      timeIn: '14:01',
-      timeOut: '15:30',
+      // timeIn: '14:01',
+      // timeOut: '15:30',
     },
   ])
 
@@ -278,9 +278,9 @@ const AttendanceHistory = () => {
                 <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Date</th>
                 <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Course</th>
                 <th className="px-6 py-4 text-center text-sm font-bold text-gray-900">Status</th>
-                <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Check In</th>
+                {/* <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Check In</th>
                 <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Check Out</th>
-                <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Duration</th>
+                <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Duration</th> */}
               </tr>
             </thead>
 
@@ -330,27 +330,27 @@ const AttendanceHistory = () => {
                       </td>
 
                       {/* Check In */}
-                      <td className="px-6 py-4">
+                      {/* <td className="px-6 py-4">
                         {record.timeIn ? (
                           <p className="text-sm text-gray-700 font-medium">{record.timeIn}</p>
                         ) : (
                           <p className="text-sm text-gray-500">-</p>
                         )}
-                      </td>
+                      </td> */}
 
                       {/* Check Out */}
-                      <td className="px-6 py-4">
+                      {/* <td className="px-6 py-4">
                         {record.timeOut ? (
                           <p className="text-sm text-gray-700 font-medium">{record.timeOut}</p>
                         ) : (
                           <p className="text-sm text-gray-500">-</p>
                         )}
-                      </td>
+                      </td> */}
 
                       {/* Duration */}
-                      <td className="px-6 py-4">
+                      {/* <td className="px-6 py-4">
                         <p className="text-sm text-gray-700 font-medium">{duration}</p>
-                      </td>
+                      </td> */}
                     </tr>
                   )
                 })

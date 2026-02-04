@@ -4,6 +4,7 @@ const CourseRegistration = () => {
   const [registeredCourses, setRegisteredCourses] = useState(['CS101', 'MATH101'])
   const [semesterFilter, setSemesterFilter] = useState('Spring 2026')
   const [departmentFilter, setDepartmentFilter] = useState('all')
+  const [academicLevelFilter, setAcademicLevelFilter] = useState('all')
   const [successMessage, setSuccessMessage] = useState('')
 
   // Mock available courses
@@ -14,6 +15,7 @@ const CourseRegistration = () => {
       name: 'Introduction to Programming',
       department: 'Computer Science',
       credits: 3,
+      academicLevel: '100',
       instructor: 'Dr. James Wilson',
       capacity: 50,
       enrolled: 42,
@@ -27,6 +29,7 @@ const CourseRegistration = () => {
       name: 'Data Structures',
       department: 'Computer Science',
       credits: 4,
+      academicLevel: '200',
       instructor: 'Prof. Sarah Johnson',
       capacity: 40,
       enrolled: 35,
@@ -40,6 +43,7 @@ const CourseRegistration = () => {
       name: 'Algorithms',
       department: 'Computer Science',
       credits: 4,
+      academicLevel: '300',
       instructor: 'Dr. Michael Brown',
       capacity: 35,
       enrolled: 30,
@@ -53,6 +57,7 @@ const CourseRegistration = () => {
       name: 'Database Systems',
       department: 'Computer Science',
       credits: 3,
+      academicLevel: '400',
       instructor: 'Prof. Robert Martinez',
       capacity: 30,
       enrolled: 25,
@@ -66,6 +71,7 @@ const CourseRegistration = () => {
       name: 'Calculus I',
       department: 'Mathematics',
       credits: 4,
+      academicLevel: '100',
       instructor: 'Dr. Emily Davis',
       capacity: 60,
       enrolled: 52,
@@ -79,6 +85,7 @@ const CourseRegistration = () => {
       name: 'Linear Algebra',
       department: 'Mathematics',
       credits: 4,
+      academicLevel: '200',
       instructor: 'Prof. William Harris',
       capacity: 45,
       enrolled: 38,
@@ -92,6 +99,7 @@ const CourseRegistration = () => {
       name: 'English Composition',
       department: 'Literature & Languages',
       credits: 3,
+      academicLevel: '100',
       instructor: 'Dr. Jessica Anderson',
       capacity: 25,
       enrolled: 20,
@@ -105,6 +113,7 @@ const CourseRegistration = () => {
       name: 'Physics I',
       department: 'Physics',
       credits: 4,
+      academicLevel: '100',
       instructor: 'Prof. David Lee',
       capacity: 40,
       enrolled: 38,
@@ -118,7 +127,8 @@ const CourseRegistration = () => {
   const filteredCourses = availableCourses.filter((course) => {
     const matchesSemester = course.semester === semesterFilter
     const matchesDepartment = departmentFilter === 'all' || course.department === departmentFilter
-    return matchesSemester && matchesDepartment
+    const matchesAcademicLevel = academicLevelFilter === 'all' || course.academicLevel === academicLevelFilter
+    return matchesSemester && matchesDepartment && matchesAcademicLevel
   })
 
   // Handle course registration
@@ -215,7 +225,7 @@ const CourseRegistration = () => {
       {/* Filters Section */}
       <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
         <h2 className="text-lg font-bold text-gray-900 mb-4">Filter Courses</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Department Filter */}
           <div>
             <label className="block text-sm font-semibold text-gray-900 mb-2">
@@ -244,9 +254,28 @@ const CourseRegistration = () => {
               onChange={(e) => setSemesterFilter(e.target.value)}
               className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 text-sm font-medium focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
             >
-              <option value="Fall 2025">Fall 2025</option>
-              <option value="Spring 2026">Spring 2026</option>
-              <option value="Summer 2026">Summer 2026</option>
+              <option value="Fall 2025">First Semester</option>
+              <option value="Spring 2026">Second Semester</option>
+              
+            </select>
+          </div>
+
+          {/* Academic Level Filter */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-900 mb-2">
+              Academic Level
+            </label>
+            <select
+              value={academicLevelFilter}
+              onChange={(e) => setAcademicLevelFilter(e.target.value)}
+              className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 text-sm font-medium focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
+            >
+              <option value="all">All Levels</option>
+              <option value="100">Level 100</option>
+              <option value="200">Level 200</option>
+              <option value="300">Level 300</option>
+              <option value="400">Level 400</option>
+              <option value="500">Level 500</option>
             </select>
           </div>
         </div>
@@ -263,8 +292,9 @@ const CourseRegistration = () => {
                 <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Course Name</th>
                 <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Instructor</th>
                 <th className="px-6 py-4 text-center text-sm font-bold text-gray-900">Credits</th>
-                <th className="px-6 py-4 text-center text-sm font-bold text-gray-900">Enrollment</th>
-                <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Schedule</th>
+                <th className="px-6 py-4 text-center text-sm font-bold text-gray-900">Level</th>
+                {/* <th className="px-6 py-4 text-center text-sm font-bold text-gray-900">Enrollment</th> */}
+                {/* <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Schedule</th> */}
                 <th className="px-6 py-4 text-center text-sm font-bold text-gray-900">Action</th>
               </tr>
             </thead>
@@ -301,8 +331,15 @@ const CourseRegistration = () => {
                       </div>
                     </td>
 
+                    {/* Academic Level */}
+                    <td className="px-6 py-4 text-center">
+                      <span className="inline-flex items-center px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-semibold">
+                        {course.academicLevel}
+                      </span>
+                    </td>
+
                     {/* Enrollment Status */}
-                    <td className="px-6 py-4">
+                    {/* <td className="px-6 py-4">
                       <div className={`border-2 rounded-lg p-3 ${getAvailabilityBg(course.enrolled, course.capacity)}`}>
                         <div className="flex items-center justify-between">
                           <div>
@@ -318,12 +355,12 @@ const CourseRegistration = () => {
                           </span>
                         </div>
                       </div>
-                    </td>
+                    </td> */}
 
                     {/* Schedule */}
-                    <td className="px-6 py-4">
+                    {/* <td className="px-6 py-4">
                       <p className="text-sm text-gray-700">{course.schedule}</p>
-                    </td>
+                    </td> */}
 
                     {/* Action Button */}
                     <td className="px-6 py-4">

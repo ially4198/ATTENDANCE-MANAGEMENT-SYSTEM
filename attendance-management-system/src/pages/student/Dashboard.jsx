@@ -198,13 +198,13 @@ const StudentDashboard = () => {
                   <div className="flex items-start justify-between mb-2">
                     <div>
                       <p className="font-semibold">{course.code} - {course.name}</p>
-                      <p className="text-sm text-red-100 mt-1">
+                      <p className="text-sm text-red-600 mt-1">
                         {course.attended}/{course.sessions} classes attended
                       </p>
                     </div>
                     <span className="text-2xl font-bold">{course.percentage}%</span>
                   </div>
-                  <p className="text-xs text-red-100 mt-2">
+                  <p className="text-xs text-red-600 mt-2">
                     Need {Math.ceil((75 * course.sessions) / 100) - course.attended} more class(es) to reach 75%
                   </p>
                 </div>
@@ -278,9 +278,9 @@ const StudentDashboard = () => {
                 </div>
 
                 {/* Course Action */}
-                <button className="w-full mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors text-sm">
+                {/* <button className="w-full mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors text-sm">
                   📋 View Details
-                </button>
+                </button> */}
               </div>
             )
           })}

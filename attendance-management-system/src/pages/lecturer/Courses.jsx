@@ -10,6 +10,7 @@ const Courses = () => {
       credits: 3,
       students: 45,
       semester: 'Spring 2026',
+      academicLevel: '100',
       status: 'active',
       sessions: 28,
       createdDate: '2025-01-15',
@@ -22,6 +23,7 @@ const Courses = () => {
       credits: 4,
       students: 38,
       semester: 'Spring 2026',
+      academicLevel: '200',
       status: 'active',
       sessions: 26,
       createdDate: '2025-01-10',
@@ -34,6 +36,7 @@ const Courses = () => {
       credits: 4,
       students: 32,
       semester: 'Spring 2026',
+      academicLevel: '300',
       status: 'active',
       sessions: 24,
       createdDate: '2024-12-20',
@@ -46,6 +49,7 @@ const Courses = () => {
       credits: 3,
       students: 28,
       semester: 'Spring 2026',
+      academicLevel: '400',
       status: 'active',
       sessions: 20,
       createdDate: '2024-12-10',
@@ -58,6 +62,7 @@ const Courses = () => {
       credits: 4,
       students: 42,
       semester: 'Spring 2026',
+      academicLevel: '500',
       status: 'active',
       sessions: 26,
       createdDate: '2025-01-05',
@@ -74,6 +79,7 @@ const Courses = () => {
     description: '',
     credits: '3',
     semester: 'Spring 2026',
+    academicLevel: '100',
   })
 
   // Filter courses
@@ -106,11 +112,12 @@ const Courses = () => {
           ...formData,
           students: 0,
           sessions: 0,
+          status: 'active',
           createdDate: new Date().toISOString().split('T')[0],
         }
         setCourses([...courses, newCourse])
       }
-      setFormData({ code: '', name: '', description: '', credits: '3', semester: 'Spring 2026' })
+      setFormData({ code: '', name: '', description: '', credits: '3', semester: 'Spring 2026', academicLevel: '100' })
       setShowModal(false)
     }
   }
@@ -123,6 +130,7 @@ const Courses = () => {
       description: course.description,
       credits: course.credits.toString(),
       semester: course.semester,
+      academicLevel: course.academicLevel,
     })
     setEditingId(course.id)
     setShowModal(true)
@@ -139,7 +147,7 @@ const Courses = () => {
   const handleCancel = () => {
     setShowModal(false)
     setEditingId(null)
-    setFormData({ code: '', name: '', description: '', credits: '3', semester: 'Spring 2026' })
+    setFormData({ code: '', name: '', description: '', credits: '3', semester: 'Spring 2026', academicLevel: '100' })
   }
 
   const getStatusColor = (status) => {
@@ -257,6 +265,25 @@ const Courses = () => {
                 </select>
               </div>
 
+              {/* Academic Level */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                  Academic Level
+                </label>
+                <select
+                  value={formData.academicLevel}
+                  onChange={(e) => setFormData({ ...formData, academicLevel: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 text-sm font-medium focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
+                  required
+                >
+                  <option value="100">Level 100 (First Year)</option>
+                  <option value="200">Level 200 (Second Year)</option>
+                  <option value="300">Level 300 (Third Year)</option>
+                  <option value="400">Level 400 (Fourth Year)</option>
+                  <option value="500">Level 500 (Postgraduate)</option>
+                </select>
+              </div>
+
               {/* Modal Actions */}
               <div className="flex gap-3 pt-6 border-t border-gray-200">
                 <button
@@ -341,7 +368,7 @@ const Courses = () => {
               <p className="text-sm text-gray-600 mb-4 line-clamp-2">{course.description}</p>
 
               {/* Course Stats */}
-              <div className="grid grid-cols-4 gap-2 py-4 border-y border-gray-200 mb-4">
+              <div className="grid grid-cols-5 gap-2 py-4 border-y border-gray-200 mb-4">
                 <div className="text-center">
                   <p className="text-2xl font-bold text-blue-600">{course.credits}</p>
                   <p className="text-xs text-gray-600">Credits</p>
@@ -357,6 +384,10 @@ const Courses = () => {
                 <div className="text-center">
                   <p className="text-sm font-semibold text-gray-900">{course.semester}</p>
                   <p className="text-xs text-gray-600">Semester</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-sm font-bold text-indigo-600">L{course.academicLevel}</p>
+                  <p className="text-xs text-gray-600">Level</p>
                 </div>
               </div>
 

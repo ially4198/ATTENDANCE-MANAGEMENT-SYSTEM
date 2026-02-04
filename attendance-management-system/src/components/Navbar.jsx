@@ -1,15 +1,31 @@
 import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useEffect } from 'react'
 
 const Navbar = () => {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const [showDropdown, setShowDropdown] = useState(false)
 
+  useEffect(() => {
+    if (showDropdown) {
+      const timer = setTimeout(() => {
+        setShowDropdown(false)
+      }, 3000) // Close after 3 seconds
+
+      return () => clearTimeout(timer)
+    }
+  }, [showDropdown])
+
   const handleLogout = () => {
+    const userRole = user?.role
     logout()
-    navigate('/login')
+    if (userRole) {
+      navigate(`/login/${userRole}`)
+    } else {
+      navigate('/login/student')
+    }
   }
 
   const getRoleEmoji = (role) => {
@@ -42,6 +58,14 @@ const Navbar = () => {
     <nav className="bg-white border-b-2 border-gray-200 px-4 sm:px-6 py-4 flex justify-between items-center shadow-sm sticky top-0 z-30">
       {/* Left: Logo/Title */}
       <div className="flex items-center gap-3">
+        {/* Mobile: open sidebar button */}
+        <button
+          onClick={() => window.dispatchEvent(new Event('toggleSidebar'))}
+          className="sm:hidden text-gray-600 mr-2 p-2 rounded-md hover:bg-gray-100"
+          aria-label="Open sidebar"
+        >
+          ☰
+        </button>
         <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center shadow-md flex-shrink-0">
           <span className="text-white font-bold text-lg">📋</span>
         </div>

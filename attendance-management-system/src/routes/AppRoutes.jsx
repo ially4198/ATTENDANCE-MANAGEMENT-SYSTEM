@@ -3,7 +3,9 @@ import ProtectedRoute from '../components/ProtectedRoute'
 
 // Pages
 import NotFound from '../pages/NotFound'
-import Login from '../pages/auth/Login'
+import StudentLogin from '../pages/auth/StudentLogin'
+import LecturerLogin from '../pages/auth/LecturerLogin'
+import AdminLogin from '../pages/auth/AdminLogin'
 
 // Admin Pages
 import AdminDashboard from '../pages/admin/Dashboard'
@@ -25,7 +27,9 @@ const AppRoutes = () => {
   return (
     <Routes>
       {/* Auth Routes */}
-      <Route path="/login" element={<Login />} />
+      <Route path="/login/student" element={<StudentLogin />} />
+      <Route path="/login/lecturer" element={<LecturerLogin />} />
+      <Route path="/login/admin" element={<AdminLogin />} />
 
       {/* Admin Routes */}
       <Route path="/admin" element={<ProtectedRoute role="admin" />}>
@@ -53,7 +57,7 @@ const AppRoutes = () => {
       </Route>
 
       {/* Default Route */}
-      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="/" element={<Navigate to="/login/student" replace />} />
 
       {/* 404 Page */}
       <Route path="*" element={<NotFound />} />
