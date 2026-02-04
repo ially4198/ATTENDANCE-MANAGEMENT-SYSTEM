@@ -342,16 +342,16 @@ const ManageUsers = () => {
           <h1 className="text-4xl font-bold text-gray-900">Manage Users</h1>
           <p className="text-gray-600 mt-2">View and manage system users</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
           <button
             onClick={() => setShowBulkModal(true)}
-            className="px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg"
+            className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg"
           >
             📥 Bulk Create
           </button>
           <button
             onClick={() => setShowModal(true)}
-            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg"
+            className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg"
           >
             + Create User
           </button>
@@ -393,7 +393,84 @@ const ManageUsers = () => {
 
       {/* Users Table */}
       <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
+        <div className="md:hidden p-4 space-y-4">
+          {filteredUsers.length > 0 ? (
+            filteredUsers.map((user) => (
+              <div key={user.id} className="border border-gray-200 rounded-xl p-4 space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                    {user.name.charAt(0).toUpperCase()}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-semibold text-gray-900 truncate">{user.name}</p>
+                    <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-2 text-xs">
+                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-slate-100 text-slate-700 font-semibold capitalize">
+                    {getRoleEmoji(user.role)} {user.role}
+                  </span>
+                  {user.department && (
+                    <span className="inline-flex items-center px-2 py-1 rounded-full bg-gray-100 text-gray-700 font-semibold">
+                      {user.department}
+                    </span>
+                  )}
+                  {user.role === 'student' && (
+                    <span className="inline-flex items-center px-2 py-1 rounded-full bg-indigo-100 text-indigo-700 font-semibold">
+                      Level {user.academicLevel}
+                    </span>
+                  )}
+                  <span
+                    className={`inline-flex items-center gap-1 px-2 py-1 rounded-full border font-semibold ${getStatusColor(
+                      user.status
+                    )}`}
+                  >
+                    <span className={user.status === 'active' ? 'text-green-600' : 'text-red-600'}>●</span>
+                    {user.status.charAt(0).toUpperCase() + user.status.slice(1)}
+                  </span>
+                </div>
+
+                <div className="text-xs text-gray-600">
+                  Joined {new Date(user.joinDate).toLocaleDateString()}
+                </div>
+
+                <div className="flex gap-2">
+                  <button
+                    title="Edit user"
+                    className="flex-1 px-3 py-2 rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-700 text-xs font-semibold transition-colors"
+                    onClick={() => handleEditClick(user)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleToggleStatus(user.id)}
+                    title={user.status === 'active' ? 'Deactivate user' : 'Activate user'}
+                    className={`flex-1 px-3 py-2 rounded-lg text-xs font-semibold transition-colors ${user.status === 'active'
+                      ? 'bg-yellow-100 hover:bg-yellow-200 text-yellow-700'
+                      : 'bg-green-100 hover:bg-green-200 text-green-700'
+                      }`}
+                  >
+                    {user.status === 'active' ? 'Deactivate' : 'Activate'}
+                  </button>
+                  <button
+                    onClick={() => handleDeleteUser(user.id)}
+                    title="Delete user"
+                    className="flex-1 px-3 py-2 rounded-lg bg-red-100 hover:bg-red-200 text-red-700 text-xs font-semibold transition-colors"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="py-8 text-center">
+              <p className="text-gray-600 font-medium">No users found</p>
+            </div>
+          )}
+        </div>
+
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full">
             {/* Table Header */}
             <thead className="bg-gradient-to-r from-slate-50 to-slate-100 border-b-2 border-gray-200">
@@ -513,7 +590,7 @@ const ManageUsers = () => {
       {/* Create User Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-5 sm:p-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Create New User</h2>
 
             <div className="space-y-4">
@@ -604,7 +681,7 @@ const ManageUsers = () => {
             </div>
 
             {/* Modal Actions */}
-            <div className="flex gap-3 mt-8">
+            <div className="flex flex-col sm:flex-row gap-3 mt-8">
               <button
                 onClick={() => setShowModal(false)}
                 className="flex-1 px-4 py-3 rounded-lg border-2 border-gray-300 text-gray-900 font-semibold hover:bg-gray-50 transition-colors"
@@ -625,7 +702,7 @@ const ManageUsers = () => {
       {/* Edit User Modal */}
       {showEditModal && editUser && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-5 sm:p-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Edit User</h2>
 
             <div className="space-y-4">
@@ -714,7 +791,7 @@ const ManageUsers = () => {
             </div>
 
             {/* Modal Actions */}
-            <div className="flex gap-3 mt-8">
+            <div className="flex flex-col sm:flex-row gap-3 mt-8">
               <button
                 onClick={() => {
                   setShowEditModal(false)
@@ -738,7 +815,7 @@ const ManageUsers = () => {
       {/* Bulk Create Modal */}
       {showBulkModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-8">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-5 sm:p-8">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-gray-900">Bulk Create Users</h2>
               <button
@@ -756,10 +833,10 @@ const ManageUsers = () => {
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-4 mb-6 border-b-2 border-gray-200">
+            <div className="flex flex-wrap gap-2 sm:gap-4 mb-6 border-b-2 border-gray-200">
               <button
                 onClick={() => setBulkTab('csv')}
-                className={`py-3 px-6 font-semibold border-b-2 transition-colors ${bulkTab === 'csv'
+                className={`py-3 px-4 sm:px-6 font-semibold border-b-2 transition-colors ${bulkTab === 'csv'
                   ? 'border-blue-600 text-blue-600'
                   : 'border-transparent text-gray-600 hover:text-gray-900'
                   }`}
@@ -768,7 +845,7 @@ const ManageUsers = () => {
               </button>
               <button
                 onClick={() => setBulkTab('text')}
-                className={`py-3 px-6 font-semibold border-b-2 transition-colors ${bulkTab === 'text'
+                className={`py-3 px-4 sm:px-6 font-semibold border-b-2 transition-colors ${bulkTab === 'text'
                   ? 'border-blue-600 text-blue-600'
                   : 'border-transparent text-gray-600 hover:text-gray-900'
                   }`}
@@ -853,8 +930,8 @@ Format 2: JSON array
                 <p className="font-semibold text-gray-900 mb-3">
                   Preview: {bulkPreview.length} user{bulkPreview.length !== 1 ? 's' : ''} to create
                 </p>
-                <div className="max-h-64 overflow-y-auto border-2 border-gray-200 rounded-xl">
-                  <table className="w-full text-sm">
+                <div className="max-h-64 overflow-auto border-2 border-gray-200 rounded-xl">
+                  <table className="w-full min-w-[520px] text-sm">
                     <thead className="bg-gray-50 sticky top-0">
                       <tr className="border-b-2 border-gray-200">
                         <th className="px-4 py-2 text-left font-semibold text-gray-900">Name</th>
@@ -883,7 +960,7 @@ Format 2: JSON array
             )}
 
             {/* Modal Actions */}
-            <div className="flex gap-3 mt-8">
+            <div className="flex flex-col sm:flex-row gap-3 mt-8">
               <button
                 onClick={() => {
                   setShowBulkModal(false)

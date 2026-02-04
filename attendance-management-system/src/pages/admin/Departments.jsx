@@ -133,7 +133,7 @@ const Departments = () => {
         {!showForm && (
           <button
             onClick={() => setShowForm(true)}
-            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg"
+            className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg"
           >
             + Add Department
           </button>
@@ -142,13 +142,13 @@ const Departments = () => {
 
       {/* Add/Edit Department Form */}
       {showForm && (
-        <div className="bg-white border-2 border-blue-200 rounded-2xl p-8 shadow-sm">
+        <div className="bg-white border-2 border-blue-200 rounded-2xl p-5 sm:p-8 shadow-sm">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">
             {editingId ? 'Edit Department' : 'Add New Department'}
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
               {/* Department Name */}
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-2">
@@ -196,7 +196,7 @@ const Departments = () => {
             </div>
 
             {/* Form Actions */}
-            <div className="flex gap-3 pt-4">
+            <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <button
                 type="button"
                 onClick={handleCancel}
@@ -235,7 +235,66 @@ const Departments = () => {
 
       {/* Departments Table */}
       <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
+        <div className="md:hidden p-4 space-y-4">
+          {filteredDepartments.length > 0 ? (
+            filteredDepartments.map((dept) => (
+              <div key={dept.id} className="border border-gray-200 rounded-xl p-4 space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-purple-400 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+                    {dept.name.charAt(0).toUpperCase()}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-semibold text-gray-900 truncate">{dept.name}</p>
+                    <p className="text-xs text-gray-500 truncate">{dept.email}</p>
+                  </div>
+                </div>
+
+                <div className="text-sm text-gray-700">
+                  Head: <span className="font-semibold text-gray-900">{dept.head}</span>
+                </div>
+
+                <div className="grid grid-cols-3 gap-2 text-xs">
+                  <div className="rounded-lg bg-blue-50 text-blue-700 font-semibold text-center py-2">
+                    {dept.students} Students
+                  </div>
+                  <div className="rounded-lg bg-green-50 text-green-700 font-semibold text-center py-2">
+                    {dept.lecturers} Lecturers
+                  </div>
+                  <div className="rounded-lg bg-purple-50 text-purple-700 font-semibold text-center py-2">
+                    {dept.courses} Courses
+                  </div>
+                </div>
+
+                <div className="text-xs text-gray-600">
+                  Created {new Date(dept.createdDate).toLocaleDateString()}
+                </div>
+
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleEdit(dept)}
+                    title="Edit department"
+                    className="flex-1 px-3 py-2 rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-700 text-xs font-semibold transition-colors"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(dept.id)}
+                    title="Delete department"
+                    className="flex-1 px-3 py-2 rounded-lg bg-red-100 hover:bg-red-200 text-red-700 text-xs font-semibold transition-colors"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="py-8 text-center">
+              <p className="text-gray-600 font-medium">No departments found</p>
+            </div>
+          )}
+        </div>
+
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full">
             {/* Table Header */}
             <thead className="bg-gradient-to-r from-slate-50 to-slate-100 border-b-2 border-gray-200">

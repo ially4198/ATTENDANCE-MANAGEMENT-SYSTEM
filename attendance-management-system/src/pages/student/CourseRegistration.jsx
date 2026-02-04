@@ -173,8 +173,8 @@ const CourseRegistration = () => {
     <div className="space-y-6">
       {/* Header Section */}
       <div>
-        <h1 className="text-4xl font-bold text-gray-900">Course Registration</h1>
-        <p className="text-gray-600 mt-2">Browse and register for courses for this semester</p>
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">Course Registration</h1>
+        <p className="text-gray-600 mt-2 text-sm sm:text-base">Browse and register for courses for this semester</p>
       </div>
 
       {/* Registration Summary */}
@@ -283,8 +283,66 @@ const CourseRegistration = () => {
 
       {/* Courses Table */}
       <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
+        <div className="md:hidden p-4 space-y-4">
+          {filteredCourses.length > 0 ? (
+            filteredCourses.map((course) => (
+              <div key={course.id} className="border-2 border-gray-200 rounded-xl p-4 space-y-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <span className="text-xs font-bold bg-blue-100 text-blue-700 px-2 py-1 rounded-md">
+                      {course.code}
+                    </span>
+                    <p className="text-sm font-semibold text-gray-900 mt-2">{course.name}</p>
+                    <p className="text-xs text-gray-600 mt-1">{course.description}</p>
+                  </div>
+                  <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-purple-100 text-purple-700 font-bold text-sm">
+                    {course.credits}
+                  </div>
+                </div>
+                <div className="flex flex-wrap items-center gap-2 text-xs text-gray-700">
+                  <span className="px-2 py-1 rounded-full bg-indigo-100 text-indigo-700 font-semibold">{course.academicLevel}</span>
+                  <span>{course.instructor}</span>
+                </div>
+                <div>
+                  {isRegistered(course.code) ? (
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        disabled
+                        className="px-3 py-2 bg-green-100 text-green-700 font-semibold rounded-lg text-sm cursor-default"
+                      >
+                        ✓ Registered
+                      </button>
+                      <button
+                        onClick={() => handleDeregister(course.code)}
+                        className="px-3 py-2 bg-red-100 hover:bg-red-200 text-red-700 font-semibold rounded-lg text-sm transition-colors"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => handleRegister(course.code)}
+                      disabled={course.enrolled >= course.capacity}
+                      className={`w-full px-4 py-2 font-semibold rounded-lg text-sm transition-all ${
+                        course.enrolled >= course.capacity
+                          ? 'bg-gray-200 text-gray-600 cursor-not-allowed'
+                          : 'bg-blue-600 hover:bg-blue-700 text-white'
+                      }`}
+                    >
+                      {course.enrolled >= course.capacity ? 'Full' : '+ Register'}
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="py-10 text-center">
+              <p className="text-gray-600 font-medium">No courses available for the selected filters</p>
+            </div>
+          )}
+        </div>
+        <div className="hidden md:block overflow-x-auto">
+          <table className="w-full min-w-[760px]">
             {/* Table Header */}
             <thead className="bg-gradient-to-r from-slate-50 to-slate-100 border-b-2 border-gray-200">
               <tr>

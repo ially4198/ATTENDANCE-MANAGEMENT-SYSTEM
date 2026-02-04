@@ -162,8 +162,8 @@ const AttendanceHistory = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-4xl font-bold text-gray-900">Attendance History</h1>
-        <p className="text-gray-600 mt-2">View your attendance records across all enrolled courses</p>
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">Attendance History</h1>
+        <p className="text-gray-600 mt-2 text-sm sm:text-base">View your attendance records across all enrolled courses</p>
       </div>
 
       {/* Summary Cards */}
@@ -202,21 +202,24 @@ const AttendanceHistory = () => {
         <h2 className="text-lg font-bold text-gray-900 mb-4">Attendance by Course</h2>
         <div className="space-y-4">
           {statsByCourse.map((course) => (
-            <div key={course.code} className="flex items-center justify-between p-4 border-2 border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">
+            <div
+              key={course.code}
+              className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-4 border-2 border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
+            >
               <div className="flex-1">
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-3">
                   <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-sm font-bold">{course.code}</span>
                   <div>
                     <p className="font-semibold text-gray-900 text-sm">{course.name}</p>
                   </div>
                 </div>
               </div>
-              <div className="flex items-center gap-6">
-                <div className="text-right">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+                <div className="text-left sm:text-right">
                   <p className="text-sm font-bold text-gray-900">{course.percentage}%</p>
                   <p className="text-xs text-gray-600">{course.present}/{course.present + course.absent} classes</p>
                 </div>
-                <div className="w-24 bg-gray-200 rounded-full h-2">
+                <div className="w-full sm:w-24 bg-gray-200 rounded-full h-2">
                   <div
                     className={`h-2 rounded-full transition-all ${course.percentage >= 75 ? 'bg-green-500' : course.percentage >= 60 ? 'bg-amber-500' : 'bg-red-500'}`}
                     style={{ width: `${Math.max(course.percentage, 5)}%` }}
@@ -270,8 +273,37 @@ const AttendanceHistory = () => {
 
       {/* Attendance Records Table */}
       <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
+        <div className="md:hidden p-4 space-y-4">
+          {filteredRecords.length > 0 ? (
+            filteredRecords.map((record) => (
+              <div key={record.id} className="border-2 border-gray-200 rounded-xl p-4 space-y-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900">{formatDate(record.date)}</p>
+                    <p className="text-xs text-gray-600 mt-1">{record.courseCode} • {record.courseName}</p>
+                  </div>
+                  {record.status === 'present' ? (
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-100 border-2 border-green-300 rounded-lg">
+                      <span className="text-base">✓</span>
+                      <span className="text-xs font-bold text-green-700">Present</span>
+                    </div>
+                  ) : (
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-red-100 border-2 border-red-300 rounded-lg">
+                      <span className="text-base">✕</span>
+                      <span className="text-xs font-bold text-red-700">Absent</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="py-10 text-center">
+              <p className="text-gray-600 font-medium">No attendance records found</p>
+            </div>
+          )}
+        </div>
+        <div className="hidden md:block overflow-x-auto">
+          <table className="w-full min-w-[640px]">
             {/* Table Header */}
             <thead className="bg-gradient-to-r from-slate-50 to-slate-100 border-b-2 border-gray-200">
               <tr>

@@ -75,13 +75,15 @@ const Reports = () => {
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-bold text-gray-900">Attendance Reports</h1>
-          <p className="text-gray-600 mt-2">View and download detailed attendance reports</p>
+          <h1 className="text-2xl sm:text-4xl font-bold text-gray-900">Attendance Reports</h1>
+          <p className="text-gray-600 mt-2 text-sm sm:text-base">
+            View and download detailed attendance reports
+          </p>
         </div>
       </div>
 
       {/* Course Selection */}
-      <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+      <div className="bg-white border border-gray-200 rounded-2xl p-4 sm:p-6 shadow-sm">
         <label className="block text-sm font-semibold text-gray-900 mb-3">
           Select Course
         </label>
@@ -99,46 +101,46 @@ const Reports = () => {
       </div>
 
       {/* Overall Statistics */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {/* Total Students */}
-        <div className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-2xl p-6">
+        <div className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-2xl p-4 sm:p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-blue-700 mb-1">Total Students</p>
-              <p className="text-3xl font-bold text-blue-600">{totalStudents}</p>
+              <p className="text-2xl sm:text-3xl font-bold text-blue-600">{totalStudents}</p>
             </div>
             <div className="text-4xl">👥</div>
           </div>
         </div>
 
         {/* Eligible Students */}
-        <div className="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-200 rounded-2xl p-6">
+        <div className="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-200 rounded-2xl p-4 sm:p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-green-700 mb-1">Eligible</p>
-              <p className="text-3xl font-bold text-green-600">{eligibleStudents}</p>
+              <p className="text-2xl sm:text-3xl font-bold text-green-600">{eligibleStudents}</p>
             </div>
             <div className="text-4xl">✓</div>
           </div>
         </div>
 
         {/* Ineligible Students */}
-        <div className="bg-gradient-to-br from-red-50 to-red-100 border-2 border-red-200 rounded-2xl p-6">
+        <div className="bg-gradient-to-br from-red-50 to-red-100 border-2 border-red-200 rounded-2xl p-4 sm:p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-red-700 mb-1">Ineligible</p>
-              <p className="text-3xl font-bold text-red-600">{ineligibleStudents}</p>
+              <p className="text-2xl sm:text-3xl font-bold text-red-600">{ineligibleStudents}</p>
             </div>
             <div className="text-4xl">✗</div>
           </div>
         </div>
 
         {/* Average Attendance */}
-        <div className="bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-200 rounded-2xl p-6">
+        <div className="bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-200 rounded-2xl p-4 sm:p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-purple-700 mb-1">Avg Attendance</p>
-              <p className="text-3xl font-bold text-purple-600">{avgAttendance}%</p>
+              <p className="text-2xl sm:text-3xl font-bold text-purple-600">{avgAttendance}%</p>
             </div>
             <div className="text-4xl">📊</div>
           </div>
@@ -146,19 +148,21 @@ const Reports = () => {
       </div>
 
       {/* Download Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-white shadow-lg">
-        <h2 className="text-2xl font-bold mb-4">Download Reports</h2>
-        <p className="text-blue-100 mb-6">Export attendance data for record keeping and analysis</p>
+      <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-5 sm:p-8 text-white shadow-lg">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4">Download Reports</h2>
+        <p className="text-blue-100 mb-6 text-sm sm:text-base">
+          Export attendance data for record keeping and analysis
+        </p>
         <div className="flex flex-col sm:flex-row gap-4">
           <button
             onClick={handleDownloadPDF}
-            className="flex-1 px-6 py-3 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-xl font-semibold transition-all flex items-center justify-center gap-2"
+            className="flex-1 px-6 py-3 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 text-sm sm:text-base"
           >
             <span className="text-2xl">📄</span> Download PDF
           </button>
           <button
             onClick={handleDownloadExcel}
-            className="flex-1 px-6 py-3 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-xl font-semibold transition-all flex items-center justify-center gap-2"
+            className="flex-1 px-6 py-3 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 text-sm sm:text-base"
           >
             <span className="text-2xl">📊</span> Download Excel
           </button>
@@ -173,7 +177,7 @@ const Reports = () => {
       )}
 
       {/* Session Information */}
-      <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+      <div className="bg-white border border-gray-200 rounded-2xl p-4 sm:p-6 shadow-sm">
         <h2 className="text-lg font-bold text-gray-900 mb-4">Report Information</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
@@ -193,15 +197,15 @@ const Reports = () => {
 
       {/* Attendance Details Table */}
       <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b-2 border-gray-200 bg-gradient-to-r from-slate-50 to-slate-100">
-          <h2 className="text-xl font-bold text-gray-900">Detailed Student Report</h2>
+        <div className="px-4 sm:px-6 py-4 border-b-2 border-gray-200 bg-gradient-to-r from-slate-50 to-slate-100">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900">Detailed Student Report</h2>
           <p className="text-sm text-gray-600 mt-1">
             Students with less than 75% attendance are ineligible for final examination
           </p>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full">
+        <div className="hidden md:block overflow-x-auto">
+          <table className="w-full min-w-[900px]">
             {/* Table Header */}
             <thead className="bg-gradient-to-r from-slate-50 to-slate-100 border-b-2 border-gray-200">
               <tr>
@@ -282,8 +286,62 @@ const Reports = () => {
           </table>
         </div>
 
+        {/* Mobile Cards */}
+        <div className="md:hidden divide-y divide-gray-200">
+          {reportData.map((student) => (
+            <div key={student.id} className="p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-sm font-semibold text-gray-900">{student.name}</p>
+                  <span className="inline-flex mt-2 text-xs font-semibold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-lg">
+                    {student.matric}
+                  </span>
+                </div>
+                <span
+                  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full border text-[10px] font-bold ${getEligibilityColor(
+                    student.eligible
+                  )}`}
+                >
+                  <span>{student.eligible ? '✓' : '✗'}</span>
+                  {student.eligible ? 'Eligible' : 'Ineligible'}
+                </span>
+              </div>
+              <div className="mt-4 grid grid-cols-3 gap-3 text-center">
+                <div className="bg-green-50 rounded-lg py-2">
+                  <p className="text-[11px] text-green-700 font-semibold">Present</p>
+                  <p className="text-sm font-bold text-green-700">{student.present}</p>
+                </div>
+                <div className="bg-red-50 rounded-lg py-2">
+                  <p className="text-[11px] text-red-700 font-semibold">Absent</p>
+                  <p className="text-sm font-bold text-red-700">{student.absent}</p>
+                </div>
+                <div className="bg-slate-50 rounded-lg py-2">
+                  <p className="text-[11px] text-slate-700 font-semibold">Attendance</p>
+                  <p className={`text-sm font-bold ${getPercentageColor(student.percentage)}`}>
+                    {student.percentage}%
+                  </p>
+                </div>
+              </div>
+              <div className="mt-3">
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div
+                    className={`h-2 rounded-full ${
+                      student.percentage >= 80
+                        ? 'bg-green-500'
+                        : student.percentage >= 70
+                        ? 'bg-amber-500'
+                        : 'bg-red-500'
+                    }`}
+                    style={{ width: `${student.percentage}%` }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
         {/* Table Footer */}
-        <div className="border-t-2 border-gray-200 bg-gray-50 px-6 py-4">
+        <div className="border-t-2 border-gray-200 bg-gray-50 px-4 sm:px-6 py-4">
           <p className="text-xs text-gray-600">
             <span className="font-semibold">Note:</span> Eligibility is based on attendance threshold of 75%. Students below this threshold cannot sit for final examinations.
           </p>
@@ -291,7 +349,7 @@ const Reports = () => {
       </div>
 
       {/* Legend */}
-      <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6">
+      <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4 sm:p-6">
         <h3 className="text-sm font-bold text-amber-900 mb-4">Attendance Color Guide</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="flex items-center gap-3">

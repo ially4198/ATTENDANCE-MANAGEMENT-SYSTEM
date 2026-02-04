@@ -77,12 +77,14 @@ const Attendance = () => {
     <div className="space-y-6">
       {/* Header Section */}
       <div>
-        <h1 className="text-4xl font-bold text-gray-900">Mark Attendance</h1>
-        <p className="text-gray-600 mt-2">Quickly mark student attendance for your course</p>
+        <h1 className="text-2xl sm:text-4xl font-bold text-gray-900">Mark Attendance</h1>
+        <p className="text-gray-600 mt-2 text-sm sm:text-base">
+          Quickly mark student attendance for your course
+        </p>
       </div>
 
       {/* Course Selection and Date */}
-      <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+      <div className="bg-white border border-gray-200 rounded-2xl p-4 sm:p-6 shadow-sm">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Course Selector */}
           <div>
@@ -123,35 +125,35 @@ const Attendance = () => {
       </div>
 
       {/* Attendance Summary & Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
         {/* Present Count */}
-        <div className="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-200 rounded-2xl p-6">
+        <div className="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-200 rounded-2xl p-4 sm:p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-green-700 mb-1">Present</p>
-              <p className="text-3xl font-bold text-green-600">{presentCount}</p>
+              <p className="text-2xl sm:text-3xl font-bold text-green-600">{presentCount}</p>
             </div>
             <div className="text-4xl">✓</div>
           </div>
         </div>
 
         {/* Absent Count */}
-        <div className="bg-gradient-to-br from-red-50 to-red-100 border-2 border-red-200 rounded-2xl p-6">
+        <div className="bg-gradient-to-br from-red-50 to-red-100 border-2 border-red-200 rounded-2xl p-4 sm:p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-red-700 mb-1">Absent</p>
-              <p className="text-3xl font-bold text-red-600">{absentCount}</p>
+              <p className="text-2xl sm:text-3xl font-bold text-red-600">{absentCount}</p>
             </div>
             <div className="text-4xl">✗</div>
           </div>
         </div>
 
         {/* Attendance Rate */}
-        <div className="bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-200 rounded-2xl p-6">
+        <div className="bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-200 rounded-2xl p-4 sm:p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-purple-700 mb-1">Attendance Rate</p>
-              <p className="text-3xl font-bold text-purple-600">{attendanceRate}%</p>
+              <p className="text-2xl sm:text-3xl font-bold text-purple-600">{attendanceRate}%</p>
             </div>
             <div className="text-4xl">📊</div>
           </div>
@@ -159,7 +161,7 @@ const Attendance = () => {
       </div>
 
       {/* Quick Action Buttons */}
-      <div className="flex gap-3 bg-white border border-gray-200 rounded-2xl p-4 shadow-sm">
+      <div className="flex flex-col sm:flex-row gap-3 bg-white border border-gray-200 rounded-2xl p-4 shadow-sm">
         <button
           onClick={markAllPresent}
           className="flex-1 px-4 py-3 bg-green-100 hover:bg-green-200 text-green-700 font-semibold rounded-lg transition-colors text-sm"
@@ -183,8 +185,8 @@ const Attendance = () => {
 
       {/* Students Attendance Table */}
       <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
+        <div className="hidden md:block overflow-x-auto">
+          <table className="w-full min-w-[720px]">
             {/* Table Header */}
             <thead className="bg-gradient-to-r from-slate-50 to-slate-100 border-b-2 border-gray-200 sticky top-0">
               <tr>
@@ -240,8 +242,43 @@ const Attendance = () => {
           </table>
         </div>
 
+        {/* Mobile Cards */}
+        <div className="md:hidden divide-y divide-gray-200">
+          {studentAttendance.map((student) => (
+            <div key={student.id} className="p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-sm font-semibold text-gray-900">{student.name}</p>
+                  <span className="inline-flex mt-2 text-xs font-semibold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-lg">
+                    {student.matric}
+                  </span>
+                </div>
+                <input
+                  type="checkbox"
+                  checked={student.present}
+                  onChange={() => toggleAttendance(student.id)}
+                  className="w-5 h-5 rounded cursor-pointer accent-blue-600 mt-1"
+                  aria-label={`Mark ${student.name} ${student.present ? 'absent' : 'present'}`}
+                />
+              </div>
+              <div className="mt-3">
+                <span
+                  className={`inline-flex items-center gap-1 px-3 py-1 rounded-full border text-xs font-bold ${
+                    student.present
+                      ? 'bg-green-100 text-green-800 border-green-200'
+                      : 'bg-red-100 text-red-800 border-red-200'
+                  }`}
+                >
+                  <span>{student.present ? '✓' : '✗'}</span>
+                  {student.present ? 'Present' : 'Absent'}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
         {/* Table Footer with Save Button */}
-        <div className="border-t-2 border-gray-200 bg-gray-50 px-6 py-4 flex items-center justify-between">
+        <div className="border-t-2 border-gray-200 bg-gray-50 px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
             <p className="text-sm text-gray-600">
               Total Students: <span className="font-bold text-gray-900">{studentAttendance.length}</span>
@@ -249,7 +286,7 @@ const Attendance = () => {
           </div>
           <button
             onClick={handleSaveAttendance}
-            className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold rounded-xl transition-all shadow-md hover:shadow-lg text-lg"
+            className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold rounded-xl transition-all shadow-md hover:shadow-lg text-base sm:text-lg"
           >
             💾 Save Attendance
           </button>
@@ -257,7 +294,7 @@ const Attendance = () => {
       </div>
 
       {/* Instructions */}
-      <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-6">
+      <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-4 sm:p-6">
         <h3 className="text-sm font-bold text-blue-900 mb-3">Quick Tips</h3>
         <ul className="text-sm text-blue-800 space-y-2">
           <li>✓ Click the checkbox next to a student's name to mark them present</li>
