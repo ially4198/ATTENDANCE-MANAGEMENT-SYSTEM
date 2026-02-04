@@ -4,6 +4,7 @@ const ManageUsers = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [roleFilter, setRoleFilter] = useState('all')
   const [showModal, setShowModal] = useState(false)
+  const [showEditModal, setShowEditModal] = useState(false)
   const [showBulkModal, setShowBulkModal] = useState(false)
   const [bulkTab, setBulkTab] = useState('csv') // 'csv' or 'text'
   const [csvFile, setCsvFile] = useState(null)
@@ -11,6 +12,7 @@ const ManageUsers = () => {
   const [bulkPreview, setBulkPreview] = useState([])
   const [bulkErrors, setBulkErrors] = useState([])
   const [newUser, setNewUser] = useState({ name: '', email: '', role: 'student', department: '', academicLevel: '100' })
+  const [editUser, setEditUser] = useState(null)
   const departments = [
     { id: 1, name: 'Computer Science' },
     { id: 2, name: 'Electrical Engineering' },
@@ -113,6 +115,33 @@ const ManageUsers = () => {
   // Handle delete user
   const handleDeleteUser = (id) => {
     setUsers(users.filter((user) => user.id !== id))
+  }
+
+  const handleEditClick = (user) => {
+    setEditUser({ ...user })
+    setShowEditModal(true)
+  }
+
+  const handleUpdateUser = () => {
+    if (!editUser?.name || !editUser?.email) return
+
+    setUsers(
+      users.map((user) =>
+        user.id === editUser.id
+          ? {
+            ...user,
+            name: editUser.name,
+            email: editUser.email,
+            role: editUser.role,
+            department: editUser.department,
+            academicLevel: editUser.role === 'student' ? editUser.academicLevel || '100' : '',
+          }
+          : user
+      )
+    )
+
+    setShowEditModal(false)
+    setEditUser(null)
   }
 
   // Parse CSV data
@@ -297,6 +326,14 @@ const ManageUsers = () => {
       : 'bg-red-100 text-red-800 border-red-200'
   }
 
+  const getDepartmentOptions = (currentDepartment) => {
+    const options = departments.map((dept) => dept.name)
+    if (currentDepartment && !options.includes(currentDepartment)) {
+      return [currentDepartment, ...options]
+    }
+    return options
+  }
+
   return (
     <div className="space-y-6">
       {/* Header Section */}
@@ -436,6 +473,7 @@ const ManageUsers = () => {
                         <button
                           title="Edit user"
                           className="p-2 rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-700 transition-colors"
+                          onClick={() => handleEditClick(user)}
                         >
                           EDIT
                         </button>
@@ -578,6 +616,119 @@ const ManageUsers = () => {
                 className="flex-1 px-4 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold transition-all"
               >
                 Create User
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit User Modal */}
+      {showEditModal && editUser && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Edit User</h2>
+
+            <div className="space-y-4">
+              {/* Name Input */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Full Name</label>
+                <input
+                  type="text"
+                  value={editUser.name}
+                  onChange={(e) => setEditUser({ ...editUser, name: e.target.value })}
+                  placeholder="Enter full name"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
+                />
+              </div>
+
+              {/* Email Input */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Email Address</label>
+                <input
+                  type="email"
+                  value={editUser.email}
+                  onChange={(e) => setEditUser({ ...editUser, email: e.target.value })}
+                  placeholder="user@university.edu"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
+                />
+              </div>
+
+              {/* Role Select */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Role</label>
+                <select
+                  value={editUser.role}
+                  onChange={(e) => {
+                    const role = e.target.value
+                    setEditUser({
+                      ...editUser,
+                      role,
+                      academicLevel: role === 'student' ? editUser.academicLevel || '100' : '',
+                    })
+                  }}
+                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
+                >
+                  <option value="student">Student</option>
+                  <option value="lecturer">Lecturer</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+
+              {/* Department Input */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Department</label>
+                <select
+                  value={editUser.department}
+                  onChange={(e) => setEditUser({ ...editUser, department: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-200 bg-white"
+                >
+                  <option value="" disabled>
+                    Select a department
+                  </option>
+
+                  {getDepartmentOptions(editUser.department).map((deptName) => (
+                    <option key={deptName} value={deptName}>
+                      {deptName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Academic Level - Only for Students */}
+              {editUser.role === 'student' && (
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 mb-2">Academic Level</label>
+                  <select
+                    value={editUser.academicLevel || '100'}
+                    onChange={(e) => setEditUser({ ...editUser, academicLevel: e.target.value })}
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
+                  >
+                    <option value="100">Level 100 </option>
+                    <option value="200">Level 200 </option>
+                    <option value="300">Level 300 </option>
+                    <option value="400">Level 400 </option>
+                    <option value="500">Level 500 </option>
+                  </select>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Actions */}
+            <div className="flex gap-3 mt-8">
+              <button
+                onClick={() => {
+                  setShowEditModal(false)
+                  setEditUser(null)
+                }}
+                className="flex-1 px-4 py-3 rounded-lg border-2 border-gray-300 text-gray-900 font-semibold hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleUpdateUser}
+                className="flex-1 px-4 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold transition-all"
+              >
+                Save Changes
               </button>
             </div>
           </div>
