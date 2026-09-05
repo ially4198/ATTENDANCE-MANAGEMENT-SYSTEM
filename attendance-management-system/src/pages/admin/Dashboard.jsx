@@ -95,7 +95,7 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl p-8 text-white shadow-lg">
+        <div className="bg-linear-to-br from-blue-600 to-blue-700 rounded-2xl p-8 text-white shadow-lg">
           <h2 className="text-xl font-bold mb-4">System Status</h2>
           <div className="space-y-4">
             <div>

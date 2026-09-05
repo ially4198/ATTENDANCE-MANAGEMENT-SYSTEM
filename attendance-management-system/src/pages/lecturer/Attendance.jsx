@@ -1,37 +1,39 @@
-import { useState } from 'react'
+import { useState } from "react";
 
 const Attendance = () => {
-  const [selectedCourse, setSelectedCourse] = useState('CS101')
-  const [attendanceDate, setAttendanceDate] = useState(new Date().toISOString().split('T')[0])
-  const [saveMessage, setSaveMessage] = useState('')
+  const [selectedCourse, setSelectedCourse] = useState("CS101");
+  const [attendanceDate, setAttendanceDate] = useState(
+    new Date().toISOString().split("T")[0],
+  );
+  const [saveMessage, setSaveMessage] = useState("");
 
   // Mock courses
   const courses = [
-    { id: 'CS101', name: 'Introduction to Programming', students: 45 },
-    { id: 'CS201', name: 'Data Structures', students: 38 },
-    { id: 'CS301', name: 'Algorithms', students: 32 },
-    { id: 'CS401', name: 'Database Systems', students: 28 },
-    { id: 'CS501', name: 'Web Development', students: 42 },
-  ]
+    { id: "CS101", name: "Introduction to Programming", students: 45 },
+    { id: "CS201", name: "Data Structures", students: 38 },
+    { id: "CS301", name: "Algorithms", students: 32 },
+    { id: "CS401", name: "Database Systems", students: 28 },
+    { id: "CS501", name: "Web Development", students: 42 },
+  ];
 
   // Mock students for selected course
   const [studentAttendance, setStudentAttendance] = useState([
-    { id: 1, matric: 'MAT001', name: 'Alice Johnson', present: true },
-    { id: 2, matric: 'MAT002', name: 'Bob Smith', present: true },
-    { id: 3, matric: 'MAT003', name: 'Charlie Brown', present: false },
-    { id: 4, matric: 'MAT004', name: 'Diana Davis', present: true },
-    { id: 5, matric: 'MAT005', name: 'Ethan Wilson', present: true },
-    { id: 6, matric: 'MAT006', name: 'Fiona Garcia', present: false },
-    { id: 7, matric: 'MAT007', name: 'George Martinez', present: true },
-    { id: 8, matric: 'MAT008', name: 'Hannah Lee', present: true },
-    { id: 9, matric: 'MAT009', name: 'Ivan Rodriguez', present: true },
-    { id: 10, matric: 'MAT010', name: 'Julia Taylor', present: false },
-    { id: 11, matric: 'MAT011', name: 'Kevin Anderson', present: true },
-    { id: 12, matric: 'MAT012', name: 'Laura Thomas', present: true },
-    { id: 13, matric: 'MAT013', name: 'Mike Jackson', present: true },
-    { id: 14, matric: 'MAT014', name: 'Nina White', present: false },
-    { id: 15, matric: 'MAT015', name: 'Oscar Harris', present: true },
-  ])
+    { id: 1, matric: "MAT001", name: "Alice Johnson", present: true },
+    { id: 2, matric: "MAT002", name: "Bob Smith", present: true },
+    { id: 3, matric: "MAT003", name: "Charlie Brown", present: false },
+    { id: 4, matric: "MAT004", name: "Diana Davis", present: true },
+    { id: 5, matric: "MAT005", name: "Ethan Wilson", present: true },
+    { id: 6, matric: "MAT006", name: "Fiona Garcia", present: false },
+    { id: 7, matric: "MAT007", name: "George Martinez", present: true },
+    { id: 8, matric: "MAT008", name: "Hannah Lee", present: true },
+    { id: 9, matric: "MAT009", name: "Ivan Rodriguez", present: true },
+    { id: 10, matric: "MAT010", name: "Julia Taylor", present: false },
+    { id: 11, matric: "MAT011", name: "Kevin Anderson", present: true },
+    { id: 12, matric: "MAT012", name: "Laura Thomas", present: true },
+    { id: 13, matric: "MAT013", name: "Mike Jackson", present: true },
+    { id: 14, matric: "MAT014", name: "Nina White", present: false },
+    { id: 15, matric: "MAT015", name: "Oscar Harris", present: true },
+  ]);
 
   // Handle attendance toggle
   const toggleAttendance = (studentId) => {
@@ -39,45 +41,55 @@ const Attendance = () => {
       studentAttendance.map((student) =>
         student.id === studentId
           ? { ...student, present: !student.present }
-          : student
-      )
-    )
-  }
+          : student,
+      ),
+    );
+  };
 
   // Handle mark all present
   const markAllPresent = () => {
-    setStudentAttendance(studentAttendance.map((student) => ({ ...student, present: true })))
-  }
+    setStudentAttendance(
+      studentAttendance.map((student) => ({ ...student, present: true })),
+    );
+  };
 
   // Handle mark all absent
   const markAllAbsent = () => {
-    setStudentAttendance(studentAttendance.map((student) => ({ ...student, present: false })))
-  }
+    setStudentAttendance(
+      studentAttendance.map((student) => ({ ...student, present: false })),
+    );
+  };
 
   // Handle save attendance
   const handleSaveAttendance = () => {
-    setSaveMessage('')
-    const presentCount = studentAttendance.filter((s) => s.present).length
-    const totalCount = studentAttendance.length
-    
+    setSaveMessage("");
+    const presentCount = studentAttendance.filter((s) => s.present).length;
+    const totalCount = studentAttendance.length;
+
     // Simulate API call
     setTimeout(() => {
-      setSaveMessage(`✓ Attendance saved! ${presentCount}/${totalCount} students marked present.`)
-      setTimeout(() => setSaveMessage(''), 3000)
-    }, 500)
-  }
+      setSaveMessage(
+        `✓ Attendance saved! ${presentCount}/${totalCount} students marked present.`,
+      );
+      setTimeout(() => setSaveMessage(""), 3000);
+    }, 500);
+  };
 
   // Calculate statistics
-  const presentCount = studentAttendance.filter((s) => s.present).length
-  const absentCount = studentAttendance.filter((s) => !s.present).length
-  const attendanceRate = Math.round((presentCount / studentAttendance.length) * 100)
-  const selectedCourseData = courses.find((c) => c.id === selectedCourse)
+  const presentCount = studentAttendance.filter((s) => s.present).length;
+  const absentCount = studentAttendance.filter((s) => !s.present).length;
+  const attendanceRate = Math.round(
+    (presentCount / studentAttendance.length) * 100,
+  );
+  const selectedCourseData = courses.find((c) => c.id === selectedCourse);
 
   return (
     <div className="space-y-6">
       {/* Header Section */}
       <div>
-        <h1 className="text-2xl sm:text-4xl font-bold text-gray-900">Mark Attendance</h1>
+        <h1 className="text-2xl sm:text-4xl font-bold text-gray-900">
+          Mark Attendance
+        </h1>
         <p className="text-gray-600 mt-2 text-sm sm:text-base">
           Quickly mark student attendance for your course
         </p>
@@ -130,8 +142,12 @@ const Attendance = () => {
         <div className="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-200 rounded-2xl p-4 sm:p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-semibold text-green-700 mb-1">Present</p>
-              <p className="text-2xl sm:text-3xl font-bold text-green-600">{presentCount}</p>
+              <p className="text-sm font-semibold text-green-700 mb-1">
+                Present
+              </p>
+              <p className="text-2xl sm:text-3xl font-bold text-green-600">
+                {presentCount}
+              </p>
             </div>
             <div className="text-4xl">✓</div>
           </div>
@@ -142,7 +158,9 @@ const Attendance = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-red-700 mb-1">Absent</p>
-              <p className="text-2xl sm:text-3xl font-bold text-red-600">{absentCount}</p>
+              <p className="text-2xl sm:text-3xl font-bold text-red-600">
+                {absentCount}
+              </p>
             </div>
             <div className="text-4xl">✗</div>
           </div>
@@ -152,8 +170,12 @@ const Attendance = () => {
         <div className="bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-200 rounded-2xl p-4 sm:p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-semibold text-purple-700 mb-1">Attendance Rate</p>
-              <p className="text-2xl sm:text-3xl font-bold text-purple-600">{attendanceRate}%</p>
+              <p className="text-sm font-semibold text-purple-700 mb-1">
+                Attendance Rate
+              </p>
+              <p className="text-2xl sm:text-3xl font-bold text-purple-600">
+                {attendanceRate}%
+              </p>
             </div>
             <div className="text-4xl">📊</div>
           </div>
@@ -190,17 +212,28 @@ const Attendance = () => {
             {/* Table Header */}
             <thead className="bg-gradient-to-r from-slate-50 to-slate-100 border-b-2 border-gray-200 sticky top-0">
               <tr>
-                <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Mark</th>
-                <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Matric Number</th>
-                <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Student Name</th>
-                <th className="px-6 py-4 text-center text-sm font-bold text-gray-900">Status</th>
+                <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">
+                  Mark
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">
+                  Matric Number
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">
+                  Student Name
+                </th>
+                <th className="px-6 py-4 text-center text-sm font-bold text-gray-900">
+                  Status
+                </th>
               </tr>
             </thead>
 
             {/* Table Body */}
             <tbody className="divide-y divide-gray-200 max-h-[600px] overflow-y-auto">
-              {studentAttendance.map((student, idx) => (
-                <tr key={student.id} className="hover:bg-gray-50 transition-colors">
+              {studentAttendance.map((student) => (
+                <tr
+                  key={student.id}
+                  className="hover:bg-gray-50 transition-colors"
+                >
                   {/* Checkbox */}
                   <td className="px-6 py-4">
                     <input
@@ -220,7 +253,9 @@ const Attendance = () => {
 
                   {/* Student Name */}
                   <td className="px-6 py-4">
-                    <p className="text-sm font-medium text-gray-900">{student.name}</p>
+                    <p className="text-sm font-medium text-gray-900">
+                      {student.name}
+                    </p>
                   </td>
 
                   {/* Status Badge */}
@@ -228,12 +263,12 @@ const Attendance = () => {
                     <span
                       className={`inline-flex items-center gap-1 px-3 py-1 rounded-full border text-xs font-bold ${
                         student.present
-                          ? 'bg-green-100 text-green-800 border-green-200'
-                          : 'bg-red-100 text-red-800 border-red-200'
+                          ? "bg-green-100 text-green-800 border-green-200"
+                          : "bg-red-100 text-red-800 border-red-200"
                       }`}
                     >
-                      <span>{student.present ? '✓' : '✗'}</span>
-                      {student.present ? 'Present' : 'Absent'}
+                      <span>{student.present ? "✓" : "✗"}</span>
+                      {student.present ? "Present" : "Absent"}
                     </span>
                   </td>
                 </tr>
@@ -248,7 +283,9 @@ const Attendance = () => {
             <div key={student.id} className="p-4">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-sm font-semibold text-gray-900">{student.name}</p>
+                  <p className="text-sm font-semibold text-gray-900">
+                    {student.name}
+                  </p>
                   <span className="inline-flex mt-2 text-xs font-semibold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-lg">
                     {student.matric}
                   </span>
@@ -258,19 +295,19 @@ const Attendance = () => {
                   checked={student.present}
                   onChange={() => toggleAttendance(student.id)}
                   className="w-5 h-5 rounded cursor-pointer accent-blue-600 mt-1"
-                  aria-label={`Mark ${student.name} ${student.present ? 'absent' : 'present'}`}
+                  aria-label={`Mark ${student.name} ${student.present ? "absent" : "present"}`}
                 />
               </div>
               <div className="mt-3">
                 <span
                   className={`inline-flex items-center gap-1 px-3 py-1 rounded-full border text-xs font-bold ${
                     student.present
-                      ? 'bg-green-100 text-green-800 border-green-200'
-                      : 'bg-red-100 text-red-800 border-red-200'
+                      ? "bg-green-100 text-green-800 border-green-200"
+                      : "bg-red-100 text-red-800 border-red-200"
                   }`}
                 >
-                  <span>{student.present ? '✓' : '✗'}</span>
-                  {student.present ? 'Present' : 'Absent'}
+                  <span>{student.present ? "✓" : "✗"}</span>
+                  {student.present ? "Present" : "Absent"}
                 </span>
               </div>
             </div>
@@ -281,7 +318,10 @@ const Attendance = () => {
         <div className="border-t-2 border-gray-200 bg-gray-50 px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
             <p className="text-sm text-gray-600">
-              Total Students: <span className="font-bold text-gray-900">{studentAttendance.length}</span>
+              Total Students:{" "}
+              <span className="font-bold text-gray-900">
+                {studentAttendance.length}
+              </span>
             </p>
           </div>
           <button
@@ -297,14 +337,22 @@ const Attendance = () => {
       <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-4 sm:p-6">
         <h3 className="text-sm font-bold text-blue-900 mb-3">Quick Tips</h3>
         <ul className="text-sm text-blue-800 space-y-2">
-          <li>✓ Click the checkbox next to a student's name to mark them present</li>
-          <li>✓ Use "Mark All Present" or "Mark All Absent" for quick bulk actions</li>
-          <li>✓ The attendance rate updates automatically as you mark students</li>
-          <li>✓ Click "Save Attendance" to permanently record the attendance</li>
+          <li>
+            ✓ Click the checkbox next to a student's name to mark them present
+          </li>
+          <li>
+            ✓ Use "Mark All Present" or "Mark All Absent" for quick bulk actions
+          </li>
+          <li>
+            ✓ The attendance rate updates automatically as you mark students
+          </li>
+          <li>
+            ✓ Click "Save Attendance" to permanently record the attendance
+          </li>
         </ul>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Attendance
+export default Attendance;

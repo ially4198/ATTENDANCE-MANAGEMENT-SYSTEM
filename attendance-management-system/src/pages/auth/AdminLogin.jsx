@@ -1,81 +1,81 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../context/AuthContext'
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/useAuth";
 
 const AdminLogin = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [emailError, setEmailError] = useState('')
-  const [passwordError, setPasswordError] = useState('')
-  const { login } = useAuth()
-  const navigate = useNavigate()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const validateEmail = (value) => {
     if (!value) {
-      setEmailError('Email is required')
-      return false
+      setEmailError("Email is required");
+      return false;
     }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(value)) {
-      setEmailError('Please enter a valid email')
-      return false
+      setEmailError("Please enter a valid email");
+      return false;
     }
-    setEmailError('')
-    return true
-  }
+    setEmailError("");
+    return true;
+  };
 
   const validatePassword = (value) => {
     if (!value) {
-      setPasswordError('Password is required')
-      return false
+      setPasswordError("Password is required");
+      return false;
     }
     if (value.length < 4) {
-      setPasswordError('Password must be at least 4 characters')
-      return false
+      setPasswordError("Password must be at least 4 characters");
+      return false;
     }
-    setPasswordError('')
-    return true
-  }
+    setPasswordError("");
+    return true;
+  };
 
   const handleEmailChange = (e) => {
-    setEmail(e.target.value)
-    if (emailError) validateEmail(e.target.value)
-  }
+    setEmail(e.target.value);
+    if (emailError) validateEmail(e.target.value);
+  };
 
   const handlePasswordChange = (e) => {
-    setPassword(e.target.value)
-    if (passwordError) validatePassword(e.target.value)
-  }
+    setPassword(e.target.value);
+    if (passwordError) validatePassword(e.target.value);
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError('')
+    e.preventDefault();
+    setError("");
 
-    const isEmailValid = validateEmail(email)
-    const isPasswordValid = validatePassword(password)
+    const isEmailValid = validateEmail(email);
+    const isPasswordValid = validatePassword(password);
 
     if (!isEmailValid || !isPasswordValid) {
-      return
+      return;
     }
 
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const userData = {
-        id: '1',
+        id: "1",
         email,
-        name: email.split('@')[0],
-        role: 'admin',
-      }
-      await new Promise(resolve => setTimeout(resolve, 600))
-      login(userData)
-      navigate('/admin/dashboard')
-    } catch (err) {
-      setError('Login failed. Please check your credentials and try again.')
-      setIsLoading(false)
+        name: email.split("@")[0],
+        role: "admin",
+      };
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      login(userData);
+      navigate("/admin/dashboard");
+    } catch {
+      setError("Login failed. Please check your credentials and try again.");
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-100 px-4 py-12">
@@ -87,9 +87,7 @@ const AdminLogin = () => {
               <span className="text-white text-2xl">⚙️</span>
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Admin Login
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Login</h1>
           <p className="text-gray-600 text-sm font-medium">
             Sign in to your administrator account
           </p>
@@ -101,7 +99,9 @@ const AdminLogin = () => {
           {error && (
             <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
               <p className="text-sm text-red-700 font-medium flex items-start gap-2">
-                <span className="text-red-600 text-lg leading-none mt-0.5">⚠️</span>
+                <span className="text-red-600 text-lg leading-none mt-0.5">
+                  ⚠️
+                </span>
                 <span>{error}</span>
               </p>
             </div>
@@ -110,7 +110,10 @@ const AdminLogin = () => {
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email Input */}
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-gray-900 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-semibold text-gray-900 mb-2"
+              >
                 Email Address
               </label>
               <input
@@ -122,8 +125,8 @@ const AdminLogin = () => {
                 placeholder="admin@university.edu"
                 className={`w-full px-4 py-3 rounded-xl border-2 text-sm font-medium transition-all duration-200 ${
                   emailError
-                    ? 'border-red-300 bg-red-50 text-red-900 placeholder-red-300 focus:outline-none focus:border-red-400 focus:ring-1 focus:ring-red-200'
-                    : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:border-slate-500 focus:ring-1 focus:ring-slate-200'
+                    ? "border-red-300 bg-red-50 text-red-900 placeholder-red-300 focus:outline-none focus:border-red-400 focus:ring-1 focus:ring-red-200"
+                    : "border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:border-slate-500 focus:ring-1 focus:ring-slate-200"
                 }`}
               />
               {emailError && (
@@ -135,7 +138,10 @@ const AdminLogin = () => {
 
             {/* Password Input */}
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-gray-900 mb-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-semibold text-gray-900 mb-2"
+              >
                 Password
               </label>
               <input
@@ -147,8 +153,8 @@ const AdminLogin = () => {
                 placeholder="Enter your password"
                 className={`w-full px-4 py-3 rounded-xl border-2 text-sm font-medium transition-all duration-200 ${
                   passwordError
-                    ? 'border-red-300 bg-red-50 text-red-900 placeholder-red-300 focus:outline-none focus:border-red-400 focus:ring-1 focus:ring-red-200'
-                    : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:border-slate-500 focus:ring-1 focus:ring-slate-200'
+                    ? "border-red-300 bg-red-50 text-red-900 placeholder-red-300 focus:outline-none focus:border-red-400 focus:ring-1 focus:ring-red-200"
+                    : "border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:border-slate-500 focus:ring-1 focus:ring-slate-200"
                 }`}
               />
               {passwordError && (
@@ -166,9 +172,25 @@ const AdminLogin = () => {
             >
               {isLoading ? (
                 <>
-                  <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  <svg
+                    className="animate-spin h-5 w-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
                   </svg>
                   <span>Signing in...</span>
                 </>
@@ -192,7 +214,7 @@ const AdminLogin = () => {
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminLogin
+export default AdminLogin;

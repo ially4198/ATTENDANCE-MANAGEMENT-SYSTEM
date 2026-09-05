@@ -1,84 +1,84 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../context/AuthContext'
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/useAuth";
 
 const Login = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [role, setRole] = useState('student')
-  const [error, setError] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [emailError, setEmailError] = useState('')
-  const [passwordError, setPasswordError] = useState('')
-  const { login } = useAuth()
-  const navigate = useNavigate()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("student");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const validateEmail = (value) => {
     if (!value) {
-      setEmailError('Email or matric number is required')
-      return false
+      setEmailError("Email or matric number is required");
+      return false;
     }
     // Allow email format or matric number (alphanumeric)
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$|^[A-Z0-9]{6,}$/i
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$|^[A-Z0-9]{6,}$/i;
     if (!emailRegex.test(value)) {
-      setEmailError('Please enter a valid email or matric number')
-      return false
+      setEmailError("Please enter a valid email or matric number");
+      return false;
     }
-    setEmailError('')
-    return true
-  }
+    setEmailError("");
+    return true;
+  };
 
   const validatePassword = (value) => {
     if (!value) {
-      setPasswordError('Password is required')
-      return false
+      setPasswordError("Password is required");
+      return false;
     }
     if (value.length < 4) {
-      setPasswordError('Password must be at least 4 characters')
-      return false
+      setPasswordError("Password must be at least 4 characters");
+      return false;
     }
-    setPasswordError('')
-    return true
-  }
+    setPasswordError("");
+    return true;
+  };
 
   const handleEmailChange = (e) => {
-    setEmail(e.target.value)
-    if (emailError) validateEmail(e.target.value)
-  }
+    setEmail(e.target.value);
+    if (emailError) validateEmail(e.target.value);
+  };
 
   const handlePasswordChange = (e) => {
-    setPassword(e.target.value)
-    if (passwordError) validatePassword(e.target.value)
-  }
+    setPassword(e.target.value);
+    if (passwordError) validatePassword(e.target.value);
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError('')
+    e.preventDefault();
+    setError("");
 
-    const isEmailValid = validateEmail(email)
-    const isPasswordValid = validatePassword(password)
+    const isEmailValid = validateEmail(email);
+    const isPasswordValid = validatePassword(password);
 
     if (!isEmailValid || !isPasswordValid) {
-      return
+      return;
     }
 
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       // Mock login - replace with actual API call
       const userData = {
-        id: '1',
+        id: "1",
         email,
-        name: email.split('@')[0],
+        name: email.split("@")[0],
         role,
-      }
-      await new Promise(resolve => setTimeout(resolve, 600)) // Simulate API delay
-      login(userData)
-      navigate(`/${role}/dashboard`)
-    } catch (err) {
-      setError('Login failed. Please check your credentials and try again.')
-      setIsLoading(false)
+      };
+      await new Promise((resolve) => setTimeout(resolve, 600)); // Simulate API delay
+      login(userData);
+      navigate(`/${role}/dashboard`);
+    } catch {
+      setError("Login failed. Please check your credentials and try again.");
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-100 px-4 py-12">
@@ -104,7 +104,9 @@ const Login = () => {
           {error && (
             <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
               <p className="text-sm text-red-700 font-medium flex items-start gap-2">
-                <span className="text-red-600 text-lg leading-none mt-0.5">⚠️</span>
+                <span className="text-red-600 text-lg leading-none mt-0.5">
+                  ⚠️
+                </span>
                 <span>{error}</span>
               </p>
             </div>
@@ -118,9 +120,9 @@ const Login = () => {
               </label>
               <div className="grid grid-cols-3 gap-3">
                 {[
-                  { value: 'student', label: 'Student', icon: '👨‍🎓' },
-                  { value: 'lecturer', label: 'Lecturer', icon: '👨‍🏫' },
-                  { value: 'admin', label: 'Admin', icon: '⚙️' },
+                  { value: "student", label: "Student", icon: "👨‍🎓" },
+                  { value: "lecturer", label: "Lecturer", icon: "👨‍🏫" },
+                  { value: "admin", label: "Admin", icon: "⚙️" },
                 ].map((option) => (
                   <button
                     key={option.value}
@@ -128,8 +130,8 @@ const Login = () => {
                     onClick={() => setRole(option.value)}
                     className={`p-3 rounded-xl border-2 transition-all duration-200 text-center ${
                       role === option.value
-                        ? 'border-blue-600 bg-blue-50 shadow-sm'
-                        : 'border-gray-200 bg-gray-50 hover:border-gray-300'
+                        ? "border-blue-600 bg-blue-50 shadow-sm"
+                        : "border-gray-200 bg-gray-50 hover:border-gray-300"
                     }`}
                   >
                     <div className="text-2xl mb-1">{option.icon}</div>
@@ -143,7 +145,10 @@ const Login = () => {
 
             {/* Email Input */}
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-gray-900 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-semibold text-gray-900 mb-2"
+              >
                 Email or Matric Number
               </label>
               <input
@@ -155,8 +160,8 @@ const Login = () => {
                 placeholder="example@university.edu or MAT123456"
                 className={`w-full px-4 py-3 rounded-xl border-2 text-sm font-medium transition-all duration-200 ${
                   emailError
-                    ? 'border-red-300 bg-red-50 text-red-900 placeholder-red-300 focus:outline-none focus:border-red-400 focus:ring-1 focus:ring-red-200'
-                    : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-200'
+                    ? "border-red-300 bg-red-50 text-red-900 placeholder-red-300 focus:outline-none focus:border-red-400 focus:ring-1 focus:ring-red-200"
+                    : "border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
                 }`}
               />
               {emailError && (
@@ -168,7 +173,10 @@ const Login = () => {
 
             {/* Password Input */}
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-gray-900 mb-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-semibold text-gray-900 mb-2"
+              >
                 Password
               </label>
               <input
@@ -180,8 +188,8 @@ const Login = () => {
                 placeholder="Enter your password"
                 className={`w-full px-4 py-3 rounded-xl border-2 text-sm font-medium transition-all duration-200 ${
                   passwordError
-                    ? 'border-red-300 bg-red-50 text-red-900 placeholder-red-300 focus:outline-none focus:border-red-400 focus:ring-1 focus:ring-red-200'
-                    : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-200'
+                    ? "border-red-300 bg-red-50 text-red-900 placeholder-red-300 focus:outline-none focus:border-red-400 focus:ring-1 focus:ring-red-200"
+                    : "border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
                 }`}
               />
               {passwordError && (
@@ -199,9 +207,25 @@ const Login = () => {
             >
               {isLoading ? (
                 <>
-                  <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  <svg
+                    className="animate-spin h-5 w-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
                   </svg>
                   <span>Signing in...</span>
                 </>
@@ -225,7 +249,7 @@ const Login = () => {
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

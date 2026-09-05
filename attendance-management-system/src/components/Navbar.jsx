@@ -1,57 +1,62 @@
-import { useAuth } from '../context/AuthContext'
-import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
-import { useEffect } from 'react'
+import { useAuth } from "../context/useAuth";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const Navbar = () => {
-  const { user, logout } = useAuth()
-  const navigate = useNavigate()
-  const [showDropdown, setShowDropdown] = useState(false)
+  const { user, isAuthenticated, logout } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
     if (showDropdown) {
       const timer = setTimeout(() => {
-        setShowDropdown(false)
-      }, 3000) // Close after 3 seconds
+        setShowDropdown(false);
+      }, 3000); // Close after 3 seconds
 
-      return () => clearTimeout(timer)
+      return () => clearTimeout(timer);
     }
-  }, [showDropdown])
+  }, [showDropdown]);
 
   const handleLogout = () => {
-    const userRole = user?.role
-    logout()
+    const userRole = user?.role;
+    logout();
     if (userRole) {
-      navigate(`/login/${userRole}`)
+      navigate(`/login/${userRole}`);
     } else {
-      navigate('/login/student')
+      navigate("/login/student");
     }
-  }
+  };
 
   const getRoleEmoji = (role) => {
     switch (role) {
-      case 'admin':
-        return '⚙️'
-      case 'lecturer':
-        return '👨‍🏫'
-      case 'student':
-        return '👨‍🎓'
+      case "admin":
+        return "⚙️";
+      case "lecturer":
+        return "👨‍🏫";
+      case "student":
+        return "👨‍🎓";
       default:
-        return '👤'
+        return "👤";
     }
-  }
+  };
 
   const getRoleLabel = (role) => {
     switch (role) {
-      case 'admin':
-        return 'Administrator'
-      case 'lecturer':
-        return 'Lecturer'
-      case 'student':
-        return 'Student'
+      case "admin":
+        return "Administrator";
+      case "lecturer":
+        return "Lecturer";
+      case "student":
+        return "Student";
       default:
-        return role
+        return role;
     }
+  };
+
+  if (!isAuthenticated || location.pathname.startsWith("/login")) {
+    return null;
   }
 
   return (
@@ -60,7 +65,7 @@ const Navbar = () => {
       <div className="flex items-center gap-3">
         {/* Mobile: open sidebar button */}
         <button
-          onClick={() => window.dispatchEvent(new Event('toggleSidebar'))}
+          onClick={() => window.dispatchEvent(new Event("toggleSidebar"))}
           className="sm:hidden text-gray-600 mr-2 p-2 rounded-md hover:bg-gray-100"
           aria-label="Open sidebar"
         >
@@ -79,7 +84,9 @@ const Navbar = () => {
       <div className="flex items-center gap-4 sm:gap-6">
         {/* Quick User Info - Mobile Only */}
         <div className="sm:hidden text-right">
-          <p className="text-xs font-semibold text-gray-900">{user?.name?.split(' ')[0] || 'User'}</p>
+          <p className="text-xs font-semibold text-gray-900">
+            {user?.name?.split(" ")[0] || "User"}
+          </p>
           <p className="text-xs text-gray-500">{getRoleLabel(user?.role)}</p>
         </div>
 
@@ -92,19 +99,28 @@ const Navbar = () => {
             aria-expanded={showDropdown}
           >
             <div className="text-right hidden sm:block">
-              <p className="text-sm font-semibold text-gray-900">{user?.name || 'User'}</p>
-              <p className="text-xs text-gray-500">{getRoleLabel(user?.role)}</p>
+              <p className="text-sm font-semibold text-gray-900">
+                {user?.name || "User"}
+              </p>
+              <p className="text-xs text-gray-500">
+                {getRoleLabel(user?.role)}
+              </p>
             </div>
             <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0 shadow-sm">
               {getRoleEmoji(user?.role)}
             </div>
             <svg
-              className={`w-4 h-4 text-gray-600 transition-transform duration-200 hidden sm:block ${showDropdown ? 'rotate-180' : ''}`}
+              className={`w-4 h-4 text-gray-600 transition-transform duration-200 hidden sm:block ${showDropdown ? "rotate-180" : ""}`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 14l-7 7m0 0l-7-7m7 7V3"
+              />
             </svg>
           </button>
 
@@ -113,8 +129,12 @@ const Navbar = () => {
             <div className="absolute right-0 mt-2 w-56 bg-white border-2 border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden animate-in fade-in duration-200">
               {/* User Info Section */}
               <div className="px-4 py-4 border-b-2 border-gray-200 bg-gradient-to-r from-blue-50 to-blue-100">
-                <p className="text-sm font-bold text-gray-900">{user?.name || 'User'}</p>
-                <p className="text-xs text-gray-600 mt-1">{user?.email || 'No email'}</p>
+                <p className="text-sm font-bold text-gray-900">
+                  {user?.name || "User"}
+                </p>
+                <p className="text-xs text-gray-600 mt-1">
+                  {user?.email || "No email"}
+                </p>
                 <div className="flex items-center gap-2 mt-3">
                   <span className="text-lg">{getRoleEmoji(user?.role)}</span>
                   <span className="text-xs font-semibold px-2 py-1 bg-blue-200 text-blue-700 rounded-full">
@@ -147,7 +167,7 @@ const Navbar = () => {
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
